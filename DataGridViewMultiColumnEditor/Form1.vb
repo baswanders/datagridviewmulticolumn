@@ -38,6 +38,8 @@
         Dim c As New MultiColumnComboBoxColumn() With {.DataSource = dataTable, .DisplayMember = "Name", .ValueMember = "EmployeeID", .DataPropertyName = "Employee", .DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing}
 
         c.Columns(0).Visible = False
+        c.Columns(1).Width = 120
+        c.AutoResize = False
 
         DataGridView1.Columns.Add(c)
 

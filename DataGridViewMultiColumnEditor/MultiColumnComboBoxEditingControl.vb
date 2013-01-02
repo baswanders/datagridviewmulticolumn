@@ -51,6 +51,12 @@ Public Class MultiColumnComboBoxEditingControl
         End Get
     End Property
 
+    Public ReadOnly Property AutoResize() As Boolean
+        Get
+            Return DirectCast(ownerCell.OwningColumn, MultiColumnComboBoxColumn).AutoResize
+        End Get
+    End Property
+
     Public Sub AutoResizeColumns()
         If Columns.Count = 0 Then Return
         Using g As Graphics = Me.CreateGraphics()
@@ -62,7 +68,7 @@ Public Class MultiColumnComboBoxEditingControl
                 For i As Integer = 0 To Items.Count - 1
                     Dim e As New CustomColumnDisplayTextEventArgs(c, i) With {.DisplayText = Convert.ToString(FilterItemOnProperty(Items(i), c.FieldName))}
                     RaiseEvent CustomColumnDisplayText(Me, e)
-                    width = Math.Max(width, g.MeasureString(e.DisplayText, Me.Font, 0).ToSize().Width + 6)
+                    width = Math.Max(width, g.MeasureString(e.DisplayText, Me.Font, 0).ToSize().Width)
                 Next
                 c.Width = width
             Next
@@ -80,7 +86,7 @@ Public Class MultiColumnComboBoxEditingControl
 
     Protected Overrides Sub OnDataSourceChanged(e As System.EventArgs)
         MyBase.OnDataSourceChanged(e)
-        AutoResizeColumns()
+        If AutoResize Then AutoResizeColumns()
     End Sub
 
     Protected Overrides Sub OnDropDown(e As System.EventArgs)
